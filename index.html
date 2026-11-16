@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1728">
+  <meta name="description" content="PlumbLab: ورشة تعليمية تفاعلية ثلاثية الأبعاد للتعرف على مكونات التركيب الصحي وشبكات المياه والصرف.">
+  <title>PlumbLab V4 — ورشة التركيب الصحي ثلاثية الأبعاد</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+    {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">P</span><span>Plumb<span class="accent">Lab</span><small data-i18n="tagline">مختبر التركيب الصحي والغاز</small></span></a>
+    <div class="top-actions">
+      <span class="status"><i></i><span data-i18n="prototype">نسخة تجريبية</span></span>
+      <select id="language" aria-label="Language">
+        <option value="ar">العربية</option><option value="fr">Français</option><option value="en">English</option>
+      </select>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <div class="side-label" data-i18n="workspace">مساحة التعلم</div>
+      <button class="nav-item active" data-section="sim"><span>▦</span><span data-i18n="simulator">المحاكي ثلاثي الأبعاد</span></button>
+      <button class="nav-item" data-section="library"><span>▤</span><span data-i18n="library">مكتبة القطع</span></button>
+      <button class="nav-item" data-section="lessons"><span>▣</span><span data-i18n="lessons">الدروس</span></button>
+      <button class="nav-item" data-section="safety"><span>盾</span><span data-i18n="safety">السلامة المهنية</span></button>
+      <button class="nav-item" data-section="quiz"><span>✓</span><span data-i18n="quiz">اختبر معلوماتك</span></button>
+      <div class="sidebar-note"><b data-i18n="learningPath">مسار المتعلم</b><p data-i18n="learningDesc">ابدأ بالتعرف على مكونات شبكة المياه قبل الانتقال إلى التمارين.</p><div class="progress"><span id="progressBar"></span></div><small id="progressText" data-i18n="progress">التقدم: 0%</small></div>
+    </aside>
+
+    <section class="content">
+      <section id="sim" class="page active">
+        <div class="page-heading">
+          <div><p class="eyebrow" data-i18n="trainingEnvironment">بيئة تدريب افتراضية</p><h1 data-i18n="title">ورشة التركيب الصحي</h1><p class="muted" data-i18n="subtitle">استكشف شبكة المياه ثلاثية الأبعاد وتعرّف على مكوناتها.</p></div>
+          <span class="pill">3D WORKSHOP</span>
+        </div>
+        <div class="sim-grid">
+          <div class="viewer-card">
+            <div class="viewer-toolbar"><div><b data-i18n="houseModel">نموذج شبكة منزلية</b><small data-i18n="rotateHint">اسحب للتدوير • قرّب وأبعد للتحكم</small></div><button id="resetView" class="ghost" data-i18n="reset">إعادة العرض</button></div>
+            <div class="workshop-toolbar">
+              <div class="mode-switch" role="group" aria-label="Learning mode">
+                <button class="mode-btn active" id="guidedMode" data-i18n="guidedMode">تعلم موجه</button>
+                <button class="mode-btn" id="freeMode" data-i18n="freeMode">استكشاف حر</button>
+              </div>
+              <div class="camera-tools" role="group" aria-label="Camera views">
+                <button class="tool-btn" id="frontView" data-i18n="frontView">أمامي</button>
+                <button class="tool-btn" id="topView" data-i18n="topView">علوي</button>
+              </div>
+            </div>
+            <div class="guided-panel" id="guidedPanel">
+              <div><small data-i18n="guidedLabel">خطوة تعليمية</small><b id="guidedStepTitle">التعرف على مساحة الحمام</b><p id="guidedStepText">ابدأ بملاحظة الأرضية والجدران والتجهيزات الصحية.</p></div>
+              <div class="guided-actions"><span id="guidedCounter">1 / 4</span><button id="nextGuidedStep" class="primary-btn" data-i18n="nextStep">الخطوة التالية</button></div>
+            </div>
+            <div class="scene-controls" aria-label="Network layer controls">
+              <button class="layer-btn active" data-layer="walls" data-i18n="showWalls">الجدران</button>
+              <button class="layer-btn active" data-layer="cold" data-i18n="showCold">الماء البارد</button>
+              <button class="layer-btn active" data-layer="hot" data-i18n="showHot">الماء الساخن</button>
+              <button class="layer-btn active" data-layer="drain" data-i18n="showDrain">الصرف</button>
+              <button class="layer-btn active" data-layer="fixtures" data-i18n="showFixtures">التجهيزات</button>
+              <button class="layer-btn active" data-layer="fittings" data-i18n="showFittings">القطع والوصلات</button>
+            </div>
+            <div id="scene" aria-label="Interactive 3D plumbing model"></div>
+            <div class="legend"><span><i class="cold"></i><span data-i18n="cold">ماء بارد</span></span><span><i class="hot"></i><span data-i18n="hot">ماء ساخن</span></span><span><i class="drain"></i><span data-i18n="drain">صرف صحي</span></span></div>
+            <p id="sceneStatus" class="scene-status" data-i18n="sceneReady">النموذج جاهز للاستكشاف. اختر أحد المكونات.</p>
+          </div>
+          <div class="info-column">
+            <article class="info-card">
+              <span class="card-icon">◉</span><h3 data-i18n="componentInfo">معلومات المكوّن</h3>
+              <h2 id="partName" data-i18n="selectPart">اختر قطعة من النموذج</h2>
+              <p id="partDescription" class="muted" data-i18n="selectDesc">انقر على أحد الأنابيب أو العناصر الملونة لعرض شرح تعليمي.</p>
+              <div class="spec-row"><span data-i18n="system">النظام</span><b id="partSystem">—</b></div>
+              <div class="spec-row"><span data-i18n="purpose">الوظيفة</span><b id="partPurpose">—</b></div>
+            </article>
+            <article class="tip-card"><b data-i18n="trainingTip">نصيحة تدريبية</b><p data-i18n="tipText">ميّز دائماً بين مسار التغذية بالماء ومسار الصرف، وراجع الرموز قبل قراءة المخططات.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section id="library" class="page">
+        <div class="page-heading"><div><p class="eyebrow" data-i18n="reference">مرجع سريع</p><h1 data-i18n="libraryTitle">مكتبة القطع والأدوات</h1><p class="muted" data-i18n="librarySub">تعرف على أشهر العناصر المستخدمة في أعمال التركيب الصحي.</p></div></div>
+        <div class="catalog-tools"><input id="catalogSearch" type="search" data-i18n-placeholder="searchParts" placeholder="ابحث عن قطعة أو وصلة..." aria-label="Search parts"><span id="catalogCount" class="muted"></span></div><div class="catalog" id="catalog"></div>
+      </section>
+
+      <section id="lessons" class="page">
+        <div class="page-heading"><div><p class="eyebrow" data-i18n="learnStep">تعلم خطوة بخطوة</p><h1 data-i18n="lessonsTitle">الدروس الأساسية</h1><p class="muted" data-i18n="lessonsSub">محتوى تمهيدي نظري قبل الانتقال إلى التدريب العملي مع مختص.</p></div></div>
+        <div class="lesson-list" id="lessonList"></div>
+      </section>
+
+      <section id="quiz" class="page">
+        <div class="page-heading"><div><p class="eyebrow" data-i18n="practice">تدريب وتقييم</p><h1 data-i18n="quizTitle">اختبر معلوماتك</h1><p class="muted" data-i18n="quizSub">أسئلة قصيرة حول مكونات شبكات المياه والصرف.</p></div></div>
+        <div class="quiz-card"><div class="quiz-top"><span id="quizCounter">1 / 5</span><span id="quizScore" data-i18n="notStarted">لم تبدأ بعد</span></div><h2 id="questionText"></h2><div id="answerList" class="answer-list"></div><p id="quizFeedback" class="quiz-feedback" aria-live="polite"></p><div class="quiz-actions"><button id="nextQuestion" class="primary-btn" disabled data-i18n="nextQuestion">السؤال التالي</button><button id="restartQuiz" class="ghost" data-i18n="restartQuiz">إعادة الاختبار</button></div></div>
+      </section>
+      <section id="safety" class="page">
+        <div class="page-heading"><div><p class="eyebrow" data-i18n="priority">الأولوية دائماً</p><h1 data-i18n="safetyTitle">السلامة المهنية</h1><p class="muted" data-i18n="safetySub">مبادئ عامة للتوعية. لا تنفذ أعمال الغاز أو الاختبارات الحقيقية بنفسك.</p></div></div>
+        <div class="warning"><b data-i18n="gasWarning">تنبيه مهم بشأن الغاز</b><p data-i18n="gasWarningText">هذا المحاكي للتعلم النظري فقط. تركيب أنابيب الغاز، تعديلها، تشغيل الأجهزة أو اختبار التسرب يجب أن يقوم به مهني مؤهل وفق القوانين والمعايير المحلية. لا تستخدم هذا النموذج كتعليمات تنفيذية.</p></div>
+        <div class="safety-grid" id="safetyCards"></div>
+      </section>
+    </section>
+  </main>
+  <footer><span>PlumbLab © 2026</span><span data-i18n="footer">نموذج تعليمي أولي — ليس بديلاً عن التكوين المهني والإشراف المختص.</span></footer>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
